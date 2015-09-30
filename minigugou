@@ -1,0 +1,16 @@
+#ifndef __MINIGOOGLE_H__
+#define __MINIGOOGLE_H__
+
+typedef struct site SITE;
+typedef struct lista LISTA;
+
+LISTA * criarlista (void);
+int lerdoarquivo (LISTA *lista);
+int inserirsite (LISTA *lista);
+int inserirtag (LISTA *lista, int codigo);
+int removersite (LISTA *lista, int codigo);
+int atualizarrelevancia (LISTA *lista, int codigo);
+int exibir (LISTA *lista);
+int buscartag (LISTA *lista);
+
+#endif
