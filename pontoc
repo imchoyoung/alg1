@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "minigoogle.h"
+
+typedef struct site {
+	int codigo;
+	char *nome;
+	int relevancia;
+	char *link;
+	int ntag;
+	char **tag;
+	struct site *proximo;
+	struct site *anterior;
+} SITE;
+
+typedef struct {
+	struct site *header;
+	int tam;
+} LISTA;
+
+LISTA *criarlista (void) {
+	LISTA *lista = (LISTA *) malloc (sizeof (LISTA));
+	lista->tam = 0;
+	lista->header = (SITE *) malloc (sizeof (SITE));
+	lista->header->proximo = lista->header;
+	lista->header->anterior = lista->header;
+
+	if (lista != NULL) return lista;
+	else return NULL; 
+}
+
+/*int lerdoarquivo (LISTA *lista) {
+	FILE *fp;
+	fopen (fp, "googlebot.csv", "r");
+	fscanf();
+}*/
+
+int inserirsite (LISTA *lista) {
+	int i;
+	SITE *aux = (SITE *) malloc (sizeof (SITE));
+	SITE *aux2 = lista->header->proximo;
+
+	aux->codigo = (lista->tam)++;
+
+	// NOME DO SITE
+	aux->nome = (char *) malloc (sizeof (char) * 50);
+	fgets (aux->nome, 50, stdin);
+	//gets(aux->nome);
+	aux->nome[strlen (aux->nome) - 1] = 0;
+
+	// RELEVANCIA
+	scanf ("%d", &(aux->relevancia));
+
+	//LINK DO SITE
+	aux->link = (char *) malloc (sizeof (char) * 100);
+	fgets (aux->link, 100, stdin);
+	aux->link[strlen (aux->link) - 1] = 0;
+	
+	//TAGS
+	scanf("%d", &(aux->ntag));
+	aux->tag = (char **) malloc (sizeof (char *) * 10);
+	for (i = 0; i < aux->ntag; i ++) {
+		aux->tag[i] = (char *) malloc (sizeof (char) * 50);
+		fgets (aux->tag[i], 50, stdin);
+		aux->tag[i][strlen (aux->tag[i]) - 1] = 0;
+	}
+
+	aux;
+	while (aux->relevancia < aux2->relevancia && aux2 != lista->header) {
+		aux2 = aux2->proximo;
+	}
+	aux->proximo = aux2;
+	aux2->anterior->proximo = aux;
+	aux->anterior = aux2->anterior;
+	aux2->anterior = aux;
+
+	if (aux != NULL) return 1;
+	else return 0;
+}
+int inserirtag (LISTA *lista, int codigo) {
+}
